@@ -30,12 +30,12 @@
   <!-- 카카오톡 전용 썸네일 -->
   <meta
     property="og:image"
-    content="https://riministreetevent.github.io/Rimini-Day/riministreetthumbnail.png"
+    content="https://riministreetevent.github.io/riminiday/riministreetthumbnail.png"
   >
 
   <meta
     property="og:image:secure_url"
-    content="https://riministreetevent.github.io/Rimini-Day/riministreetthumbnail.png"
+    content="https://riministreetevent.github.io/riminiday/riministreetthumbnail.png"
   >
 
   <meta
@@ -60,7 +60,7 @@
 
   <meta
     property="og:url"
-    content="https://riministreetevent.github.io/Rimini-Day/"
+    content="https://riministreetevent.github.io/riminiday/"
   >
 
   <meta
@@ -91,14 +91,16 @@
 
   <meta
     name="twitter:image"
-    content="https://riministreetevent.github.io/Rimini-Day/riministreetthumbnail.png"
+    content="https://riministreetevent.github.io/riminiday/riministreetthumbnail.png"
   >
 
-  <!-- 5초 후 Google Form으로 자동 이동 -->
-  <meta
-    http-equiv="refresh"
-    content="5; url=https://docs.google.com/forms/d/e/1FAIpQLSc8xQY3uZBJFsHaMtxjtnpGHtrZtwPneu9IHx4Q0HNo-apZzw/viewform"
-  >
+  <!-- JavaScript가 작동하지 않을 경우를 위한 백업 자동 이동 -->
+  <noscript>
+    <meta
+      http-equiv="refresh"
+      content="5; url=https://docs.google.com/forms/d/e/1FAIpQLSc8xQY3uZBJFsHaMtxjtnpGHtrZtwPneu9IHx4Q0HNo-apZzw/viewform"
+    >
+  </noscript>
 
   <style>
     * {
@@ -132,7 +134,7 @@
       background-color: #ffffff;
     }
 
-    /* 본문 초청장 이미지 */
+    /* 웹페이지 본문 이미지 */
     .hero-image {
       display: block;
       width: 100%;
@@ -157,8 +159,8 @@
       color: #ffffff;
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.8px;
       line-height: 1;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
     }
 
@@ -180,7 +182,7 @@
     }
 
     .description {
-      margin: 0 0 14px;
+      margin: 0 0 20px;
       color: #4b4b4b;
       font-size: 16px;
       line-height: 1.7;
@@ -188,10 +190,30 @@
     }
 
     .redirect-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       margin: 0 0 24px;
-      color: #777777;
+      color: #555555;
       font-size: 14px;
       line-height: 1.6;
+    }
+
+    /* 카운트다운 숫자 배지 */
+    .countdown-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      border-radius: 50%;
+      background-color: #fbe232;
+      color: #161616;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1;
     }
 
     .button {
@@ -257,6 +279,18 @@
         font-size: 15px;
       }
 
+      .redirect-message {
+        gap: 7px;
+        font-size: 13px;
+      }
+
+      .countdown-badge {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+        font-size: 16px;
+      }
+
       .button {
         min-height: 52px;
         font-size: 16px;
@@ -268,11 +302,11 @@
 <body>
   <main class="page">
 
-    <!-- 본문 이미지 -->
+    <!-- 웹페이지 본문 이미지 -->
     <img
       class="hero-image"
       src="VMware_abm.png"
-      alt="Rimini Day VMware 유지보수 세미나 초청장"
+      alt="Rimini Day VMware Exclusive Seminar 초청장"
     >
 
     <section class="content">
@@ -293,8 +327,18 @@
         새로운 선택지를 확인해 보세요.
       </p>
 
-      <p class="redirect-message">
-        5초 후 참석 신청 페이지로 자동 이동합니다.
+      <p class="redirect-message" aria-live="polite">
+        <span
+          id="countdown"
+          class="countdown-badge"
+          aria-label="남은 시간 5초"
+        >
+          5
+        </span>
+
+        <span>
+          초 후 참석 신청 페이지로 이동합니다.
+        </span>
       </p>
 
       <a
@@ -311,5 +355,33 @@
     </section>
 
   </main>
+
+  <script>
+    const formUrl =
+      "https://docs.google.com/forms/d/e/1FAIpQLSc8xQY3uZBJFsHaMtxjtnpGHtrZtwPneu9IHx4Q0HNo-apZzw/viewform";
+
+    let seconds = 5;
+    const countdownElement = document.getElementById("countdown");
+
+    const countdownTimer = window.setInterval(function () {
+      seconds -= 1;
+
+      if (seconds > 0) {
+        countdownElement.textContent = seconds;
+        countdownElement.setAttribute(
+          "aria-label",
+          "남은 시간 " + seconds + "초"
+        );
+      } else {
+        window.clearInterval(countdownTimer);
+        countdownElement.textContent = "0";
+        countdownElement.setAttribute(
+          "aria-label",
+          "참석 신청 페이지로 이동 중"
+        );
+        window.location.replace(formUrl);
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
